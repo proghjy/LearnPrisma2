@@ -1,0 +1,54 @@
+version: '3'
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:10.3
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql
+
+  prisma:
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    container_name: prisma
+    restart: always
+    ports:
+      - '4466:4466'
+    build: 
+      context: backend/prisma
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_URL: ${POSTGRES_URL}
+    volumes:
+      - /app/prisma
+
+  backend:
+    links:
+      - postgres
+    depends_on:
+      - postgres
+      - prisma
+    container_name: backend
+    ports:
+      - '4000:4000'
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      args: 
+        - POSTGRES_URL=${POSTGRES_URL}
+    environment: 
+      POSTGRES_URL: ${POSTGRES_URL}
+      FRONTEND_URL: ${FRONTEND_URL}
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/prisma
+
+volumes:
+  postgres: ~
