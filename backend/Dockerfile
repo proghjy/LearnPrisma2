@@ -14,4 +14,4 @@ ENV POSTGRES_URL "$POSTGRES_URL"
 RUN npm install
 RUN prisma2 generate
 
-CMD ["npm", "start" ]
+CMD npm run dev

@@ -3,8 +3,8 @@
  * Do not make changes to this file directly
  */
 
-import * as Context from "../src/types"
-import * as prisma from "@prisma/client"
+import * as Context from "../context"
+import * as client from "@prisma/client"
 
 
 
@@ -20,20 +20,20 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  UserCreateInput: { // input type
-    email: string; // String!
-    id?: string | null; // String
-    name?: string | null; // String
-  }
 }
 
 export interface NexusGenEnums {
 }
 
 export interface NexusGenRootTypes {
+  AuthPayload: { // root type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: {};
+  Post: client.Post;
   Query: {};
-  User: prisma.User;
+  User: client.User;
   String: string;
   Int: number;
   Float: number;
@@ -42,27 +42,69 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
-  UserCreateInput: NexusGenInputs['UserCreateInput'];
 }
 
 export interface NexusGenFieldTypes {
+  AuthPayload: { // field return type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: { // field return type
-    signupUser: NexusGenRootTypes['User']; // User!
+    createDraft: NexusGenRootTypes['Post']; // Post!
+    deletePost: NexusGenRootTypes['Post'] | null; // Post
+    login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    publish: NexusGenRootTypes['Post'] | null; // Post
+    signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+  }
+  Post: { // field return type
+    author: NexusGenRootTypes['User'] | null; // User
+    content: string | null; // String
+    id: number; // Int!
+    published: boolean; // Boolean!
+    title: string; // String!
   }
   Query: { // field return type
-    users: NexusGenRootTypes['User'][]; // [User!]!
+    feed: NexusGenRootTypes['Post'][]; // [Post!]!
+    filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    me: NexusGenRootTypes['User'] | null; // User
+    post: NexusGenRootTypes['Post'] | null; // Post
   }
   User: { // field return type
     email: string; // String!
-    id: string; // String!
+    id: number; // Int!
     name: string | null; // String
+    posts: NexusGenRootTypes['Post'][]; // [Post!]!
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    signupUser: { // args
-      data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
+    createDraft: { // args
+      content?: string | null; // String
+      title: string; // String!
+    }
+    deletePost: { // args
+      id?: string | null; // ID
+    }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
+    }
+    publish: { // args
+      id?: string | null; // ID
+    }
+    signup: { // args
+      email: string; // String!
+      name?: string | null; // String
+      password: string; // String!
+    }
+  }
+  Query: {
+    filterPosts: { // args
+      searchString?: string | null; // String
+    }
+    post: { // args
+      id?: string | null; // ID
     }
   }
 }
@@ -72,9 +114,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "Query" | "User";
+export type NexusGenObjectNames = "AuthPayload" | "Mutation" | "Post" | "Query" | "User";
 
-export type NexusGenInputNames = "UserCreateInput";
+export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = never;
 
