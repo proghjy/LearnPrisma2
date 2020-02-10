@@ -1,7 +1,7 @@
-export * from './models/AuthPayload'
-export * from './models/Post'
-export * from './models/User'
+export * from './models/auth_payload'
+export * from './models/post'
+export * from './models/user'
 
-export * from './Mutation'
-export * from './Query'
+export * from './mutation'
+export * from './query'
 
