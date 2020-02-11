@@ -10,12 +10,16 @@
     "clean": "npm run clean:images && npm run clean:volumes",
     "clean:images": "docker system prune -af",
     "clean:volumes": "docker volume prune -f",
-    "migrate:save": "docker exec -it prisma prisma2 migrate save --name first-migration --experimental",
+    "table:save": "docker exec -it prisma prisma2 migrate save --name first-migration --experimental",
+    "table:up": "docker exec -it prisma prisma2 migrate up --experimental",
+    "table:init": "npm run table:save && npm run table:up",
+    "migrate:save": "docker exec -it prisma prisma2 migrate save --experimental",
     "migrate:up": "docker exec -it prisma prisma2 migrate up --experimental",
     "migrate": "npm run migrate:save && npm run migrate:up",
     "seed": "docker exec -it prisma npm run seed",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "docker exec -it frontend npm run generate"
+    "generate:front": "docker exec -it frontend npm run generate",
+    "generate:back": "docker exec -it backend npm run generate"
   },
   "author": "Paul Han",
   "license": "ISC"

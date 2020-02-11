@@ -30,6 +30,8 @@ export interface NexusGenRootTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Channel: client.Channel;
+  Message: client.Message;
   Mutation: {};
   Query: {};
   User: client.User;
@@ -38,6 +40,7 @@ export interface NexusGenRootTypes {
   Float: number;
   Boolean: boolean;
   ID: string;
+  DateTime: any;
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
@@ -48,30 +51,61 @@ export interface NexusGenFieldTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Channel: { // field return type
+    createdAt: any; // DateTime!
+    id: number; // Int!
+    messages: NexusGenRootTypes['Message'][]; // [Message!]!
+    name: string; // String!
+    users: NexusGenRootTypes['User'][]; // [User!]!
+  }
+  Message: { // field return type
+    createdAt: any; // DateTime!
+    id: number; // Int!
+    sender: NexusGenRootTypes['User']; // User!
+    text: string; // String!
+  }
   Mutation: { // field return type
+    createChannel: NexusGenRootTypes['Channel']; // Channel!
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    sendMessage: NexusGenRootTypes['Channel']; // Channel!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
   }
   Query: { // field return type
+    channel: NexusGenRootTypes['Channel'] | null; // Channel
     me: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
+    channels: NexusGenRootTypes['Channel'][]; // [Channel!]!
+    createdAt: any; // DateTime!
     email: string; // String!
     id: number; // Int!
     name: string | null; // String
+    updatedAt: any; // DateTime!
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createChannel: { // args
+      name: string; // String!
+    }
     login: { // args
       email: string; // String!
       password: string; // String!
+    }
+    sendMessage: { // args
+      channelId: string; // ID!
+      text: string; // String!
     }
     signup: { // args
       email: string; // String!
       name?: string | null; // String
       password: string; // String!
+    }
+  }
+  Query: {
+    channel: { // args
+      id?: string | null; // ID
     }
   }
 }
@@ -81,7 +115,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "AuthPayload" | "Mutation" | "Query" | "User";
+export type NexusGenObjectNames = "AuthPayload" | "Channel" | "Message" | "Mutation" | "Query" | "User";
 
 export type NexusGenInputNames = never;
 
@@ -89,7 +123,7 @@ export type NexusGenEnumNames = never;
 
 export type NexusGenInterfaceNames = never;
 
-export type NexusGenScalarNames = "Boolean" | "Float" | "ID" | "Int" | "String";
+export type NexusGenScalarNames = "Boolean" | "DateTime" | "Float" | "ID" | "Int" | "String";
 
 export type NexusGenUnionNames = never;
 

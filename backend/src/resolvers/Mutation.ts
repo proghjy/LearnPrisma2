@@ -53,5 +53,41 @@ export const Mutation = mutationType({
         }
       },
     })
+
+    t.field('createChannel', {
+      type: 'Channel',
+      args: {
+        name: stringArg({ nullable: false }),
+      },
+      resolve: (parent, { name }, ctx) => {
+        const userId = getUserId(ctx)
+        return ctx.prisma.channel.create({
+          data: {
+            name,
+            users: [
+              { connect: { id: userId } },
+            ],
+          }
+        })
+      }
+    })
+
+    t.field('sendMessage', {
+      type: 'Channel',
+      args: {
+        text: stringArg({ nullable: false }),
+        channelId: idArg({ nullable: false }),
+      },
+      resolve: (parent, { channelId, text }, ctx) => {
+        const userId = getUserId(ctx)
+        return ctx.prisma.message.create({
+          data: {
+            text,
+            sender: { connect: { id: userId }},
+            channel: { connect: { id: channelId }},
+          }
+        })
+      }
+    })
   },
 })

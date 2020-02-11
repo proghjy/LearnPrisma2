@@ -1,4 +1,4 @@
-import { idArg, queryType, stringArg } from 'nexus'
+import { idArg, queryType, stringArg, intArg } from 'nexus'
 import { getUserId } from '../utils'
 
 export const Query = queryType({
@@ -14,6 +14,19 @@ export const Query = queryType({
           },
         })
       },
+    })
+    
+    t.field('channel', {
+      type: 'Channel',
+      nullable: true,
+      args: { id: idArg() },
+      resolve: (parent, { id }, ctx) => {
+        return ctx.prisma.message.findMany({
+          where: {
+            id,
+          }
+        })
+      }
     })
   },
 })

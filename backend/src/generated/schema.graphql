@@ -7,17 +7,40 @@ type AuthPayload {
   user: User!
 }
 
+type Channel {
+  createdAt: DateTime!
+  id: Int!
+  messages: [Message!]!
+  name: String!
+  users: [User!]!
+}
+
+scalar DateTime
+
+type Message {
+  createdAt: DateTime!
+  id: Int!
+  sender: User!
+  text: String!
+}
+
 type Mutation {
+  createChannel(name: String!): Channel!
   login(email: String!, password: String!): AuthPayload!
+  sendMessage(channelId: ID!, text: String!): Channel!
   signup(email: String!, name: String, password: String!): AuthPayload!
 }
 
 type Query {
+  channel(id: ID): Channel
   me: User
 }
 
 type User {
+  channels: [Channel!]!
+  createdAt: DateTime!
   email: String!
   id: Int!
   name: String
+  updatedAt: DateTime!
 }
