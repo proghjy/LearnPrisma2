@@ -15,5 +15,6 @@ export const permissions = shield({
   },
   Mutation: {
     createChannel: rules.isAuthenticatedUser,
+    sendMessage: rules.isAuthenticatedUser,
   }
 })

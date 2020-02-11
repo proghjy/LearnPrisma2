@@ -1,7 +1,7 @@
-import { objectType, idArg } from 'nexus'
-import { PubSub, withFilter } from 'graphql-yoga'
+// import { objectType, idArg } from 'nexus'
+// import { PubSub, withFilter } from 'graphql-yoga'
 
-const pubsub = new PubSub()
+// const pubsub = new PubSub()
 
 // export const Subscription = objectType({
 //   name: 'Subscription',
