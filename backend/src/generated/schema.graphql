@@ -8,31 +8,16 @@ type AuthPayload {
 }
 
 type Mutation {
-  createDraft(content: String, title: String!): Post!
-  deletePost(id: ID): Post
   login(email: String!, password: String!): AuthPayload!
-  publish(id: ID): Post
   signup(email: String!, name: String, password: String!): AuthPayload!
 }
 
-type Post {
-  author: User
-  content: String
-  id: Int!
-  published: Boolean!
-  title: String!
-}
-
 type Query {
-  feed: [Post!]!
-  filterPosts(searchString: String): [Post!]!
   me: User
-  post(id: ID): Post
 }
 
 type User {
   email: String!
   id: Int!
   name: String
-  posts: [Post!]!
 }

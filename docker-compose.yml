@@ -2,13 +2,13 @@ version: '3'
 services:
 
   postgres:
-    image: postgres:10.3
     container_name: postgres
+    image: postgres:12.1
     restart: always
-    ports:
-      - '5432:5432'
     environment:
-      POSTGRES_URL: ${POSTGRES_URL}
+      POSTGRES_DB: cool-day
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -18,9 +18,8 @@ services:
     depends_on:
       - postgres
     container_name: prisma
-    restart: always
     ports:
-      - '4466:4466'
+      - '5555:5555'
     build: 
       context: backend/prisma
       dockerfile: Dockerfile
@@ -36,7 +35,6 @@ services:
       - postgres
       - prisma
     container_name: backend
-    restart: always
     ports:
       - '4000:4000'
     build:
@@ -53,4 +51,4 @@ services:
       - /app/prisma
 
 volumes:
-  postgres: ~
+  postgres:
