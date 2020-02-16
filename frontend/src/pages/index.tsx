@@ -1,23 +1,20 @@
 import * as React from 'react';
-import { NextPage } from 'next';
+import { NextPage } from 'next'; 
+import { inject, observer } from 'mobx-react';
 
-import TodoForm from '../components/todo_from';
-import TodoList from '../components/todo_list';
-import { TodosContextProvider } from '../context/todos_context';
-
+@inject('themeStore') @observer
 const IndexPage: NextPage = () => {
-  return (
-    <TodosContextProvider>
-      <TodoForm />
-      <TodoList />
-    </TodosContextProvider>
-    
-  );
-};
 
-// IndexPage.getInitialProps = async ({ req }) => {
-//   const userAgent = req ? req.headers['user-agent'] || '' : navigator.userAgent;
-//   return { userAgent };
-// };
+  static async getInitialProps({ mobxStore, query }) {
+    return { appearance: mobxStore.themeStore.appearance };
+  }
+
+  return (
+    <div>
+      <h1>{appearance}</h1>
+    </div>
+  )
+}
+
 
 export default IndexPage;
