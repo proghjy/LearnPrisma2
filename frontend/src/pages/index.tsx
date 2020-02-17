@@ -1,20 +1,25 @@
-import * as React from 'react';
-import { NextPage } from 'next'; 
-import { inject, observer } from 'mobx-react';
+import styled from '../styled'
+import Link from 'next/link';
+import { useStore } from '../stores'
 
-@inject('themeStore') @observer
-const IndexPage: NextPage = () => {
-
-  static async getInitialProps({ mobxStore, query }) {
-    return { appearance: mobxStore.themeStore.appearance };
-  }
+function IndexPage() {
+  const store = useStore()
+  store.setEnvironments(process.env)
 
   return (
     <div>
-      <h1>{appearance}</h1>
+      <p>App Information</p>
+      <p>
+        <Link href="/about">
+          <a>About</a>
+        </Link>
+      </p>
+      <ul>
+        <li>token: {store.tokens}</li>
+        <li>env: {store.environments.get('BACKEND_URL')}</li>
+      </ul>
     </div>
   )
 }
-
 
 export default IndexPage;
