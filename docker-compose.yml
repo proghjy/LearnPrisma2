@@ -54,5 +54,19 @@ services:
       - /app/node_modules
       - /app/prisma
 
+  frontend:
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    environment:
+      BACKEND_URL: ${BACKEND_URL}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
 volumes:
   postgres:
